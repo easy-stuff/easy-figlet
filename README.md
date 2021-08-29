@@ -22,6 +22,10 @@ figlet for windows easily
 # Sample Usage
 
 In this image, 'r' is for random
+
 ![image](https://user-images.githubusercontent.com/36286877/131241583-1414e51a-2c9a-4fe7-8662-e565207b7c8b.png)
+
+![image](https://user-images.githubusercontent.com/36286877/131241722-0ac1c68d-603d-4230-b05e-09df67b6c0b3.png)
+
 
 You can also set a custom font according to your liking... use command `python figlet.py list` to see all the available fonts
