@@ -1,4 +1,15 @@
-import pyfiglet, sys
+import sys, platform, os
+
+try:
+    import pyfiglet
+except:
+    if platform.system().lower().startswith('win'):
+        os.system("pip install pyfiglet")
+    else:
+        os.system("pip3 install pyfiglet")
+
+    import pyfiglet
+
 from random import choice
 
 # List of all fonts
