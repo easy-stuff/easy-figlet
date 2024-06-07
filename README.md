@@ -1,31 +1,89 @@
-# figlet
-figlet for windows easily
+# easy-figlet
 
-# Help
+Deal with figlet easily. Basically a wrapper.
+
+# Setup
+
+## Run from source
+
+This installation guide is written for Windows users.
+
+1. [Click here](https://github.com/hirusha-adi/easy-figlet/archive/refs/heads/main.zip) to download the source code in the master branch of this github repository.
+
+2. Extract it and cd into it
+
+3. Install dependencies
+
+```bash
+python -m pip install -r requirements.txt
 ```
-    ███████╗██╗ ██████╗ ██╗     ███████╗████████╗
-    ██╔════╝██║██╔════╝ ██║     ██╔════╝╚══██╔══╝
-    █████╗  ██║██║  ███╗██║     █████╗     ██║   
-    ██╔══╝  ██║██║   ██║██║     ██╔══╝     ██║   
-    ██║     ██║╚██████╔╝███████╗███████╗   ██║   
-    ╚═╝     ╚═╝ ╚═════╝ ╚══════╝╚══════╝   ╚═╝   
-                by ZeaCeR#5641
 
-    Usage:
-        figlet [font=random] [text]
+4. Run the script
 
-    Others:
-        figlet help --> Show this
-        figlet list --> Show all fonts
+```bash
+python easy-figlet.py
 ```
 
-# Sample Usage
+# Compiling
 
-In this image, 'r' is for random
+1. Setup a virtual environment
+```bash
+python -m venv env
+```
 
-![image](https://user-images.githubusercontent.com/36286877/131241583-1414e51a-2c9a-4fe7-8662-e565207b7c8b.png)
+2. Use that virtual environment
+```bash
+.\env\Scripts\activate.bat
+```
 
-![image](https://user-images.githubusercontent.com/36286877/131241722-0ac1c68d-603d-4230-b05e-09df67b6c0b3.png)
+3. Install requirements
+```bash
+python3 -m pip -r requirements.txt
+```
 
+4. Install PyInstaller to build the file
+```bash
+python -m pip install PyInstaller
+```
 
-You can also set a custom font according to your liking... use command `python figlet.py list` to see all the available fonts
+5. Compile
+```bash
+python -m PyInstaller easy-figlet.py --name "easy-figlet" --icon "logo.ico" --onefile --console --noconfirm
+```
+
+# Usage
+
+## Command Usage
+
+```
+>python easy-figlet.py --help
+usage: easy-figlet.py [-h] [--font FONT] [--list] [-r] [-u] [-l] [-s [SAVE]] [text]
+
+Generate ASCII art with pyfiglet.
+
+positional arguments:
+  text                  Text to convert to ASCII art
+
+options:
+  -h, --help            show this help message and exit
+  --font FONT           Font to use for the ASCII art
+  --list                List all available fonts
+  -r, --random          Print text with a random font
+  -u, --uppercase       Convert text to uppercase
+  -l, --lowercase       Convert text to lowercase
+  -s [SAVE], --save [SAVE]
+                        Save the result to a file
+```
+
+## Examples
+
+```bash
+python easy-figlet.py --help
+python easy-figlet.py "hirusha"
+python easy-figlet.py "hirusha" --font standard
+python easy-figlet.py "hirusha" --random
+python easy-figlet.py "hirusha" -u
+python easy-figlet.py "hirusha" -l
+python easy-figlet.py "hirusha" -s
+python easy-figlet.py "hirusha" -s "file.txt"
+```
