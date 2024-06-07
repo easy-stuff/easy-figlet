@@ -4,9 +4,7 @@ Deal with figlet easily. Basically a wrapper.
 
 # Setup
 
-## Run from source
-
-This installation guide is written for Windows users.
+This guide is written for Windows users.
 
 1. [Click here](https://github.com/hirusha-adi/easy-figlet/archive/refs/heads/main.zip) to download the source code in the master branch of this github repository.
 
@@ -22,33 +20,6 @@ python -m pip install -r requirements.txt
 
 ```bash
 python easy-figlet.py
-```
-
-# Compiling
-
-1. Setup a virtual environment
-```bash
-python -m venv env
-```
-
-2. Use that virtual environment
-```bash
-.\env\Scripts\activate.bat
-```
-
-3. Install requirements
-```bash
-python3 -m pip -r requirements.txt
-```
-
-4. Install PyInstaller to build the file
-```bash
-python -m pip install PyInstaller
-```
-
-5. Compile
-```bash
-python -m PyInstaller easy-figlet.py --name "easy-figlet" --icon "logo.ico" --onefile --console --noconfirm
 ```
 
 # Usage
