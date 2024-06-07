@@ -1,63 +1,49 @@
 import sys
 import os
 import argparse
-import pyfiglet
 from random import choice
+import pyfiglet
 
-def print_help():
-    print("""
-███████╗██╗ ██████╗ ██╗     ███████╗████████╗
-██╔════╝██║██╔════╝ ██║     ██╔════╝╚══██╔══╝
-█████╗  ██║██║  ███╗██║     █████╗     ██║   
-██╔══╝  ██║██║   ██║██║     ██╔══╝     ██║   
-██║     ██║╚██████╔╝███████╗███████╗   ██║   
-╚═╝     ╚═╝ ╚═════╝ ╚══════╝╚══════╝   ╚═╝   
-            by ZeaCeR#5641
+def generate_art(font, text):
+    result = pyfiglet.figlet_format(text, font=font)
+    print(result)
 
-Usage:
-    figlet [font=random] [text]
-
-Others:
-    figlet help --> Show this
-    figlet list --> Show all fonts
-        """)
-
-def generate_art(all_fonts, font, text):
-    # Word lists
-    random_font_triggers = ("random", "rand", "r", "skip", "any", "no", "dont")
-    font_list_triggers = ("list", "fonts", "show", "showfonts", "listfonts")
-
-    # Program starts here
-    if font.lower() in random_font_triggers:
-        result = pyfiglet.figlet_format(text, font=choice(all_fonts))
-        print(result)
-    elif font in all_fonts:
-        result = pyfiglet.figlet_format(text, font=font)
-        print(result)
-    elif font.lower() in font_list_triggers:
-        for idx, fnt in enumerate(all_fonts):
-            print(f"{idx} | {fnt}")
-            print("--------------")
-    else:
-        print_help()
+def list_fonts():
+    fonts = pyfiglet.FigletFont.getFonts()
+    for idx, font in enumerate(fonts):
+        print(f"{idx} | {font}")
+        print("--------------")
 
 def main():
     parser = argparse.ArgumentParser(description='Generate ASCII art with pyfiglet.')
-    parser.add_argument('font', type=str, help='Font to use for the ASCII art')
-    parser.add_argument('text', nargs='*', help='Text to convert to ASCII art')
+    parser.add_argument('text', nargs='?', help='Text to convert to ASCII art')
+    parser.add_argument('--font', type=str, help='Font to use for the ASCII art')
+    parser.add_argument('--list', action='store_true', help='List all available fonts')
+    parser.add_argument('-r', '--random', action='store_true', help='Print text with a random font')
+    parser.add_argument('-u', '--uppercase', action='store_true', help='Convert text to uppercase')
+    parser.add_argument('-l', '--lowercase', action='store_true', help='Convert text to lowercase')
 
     args = parser.parse_args()
 
-    if not args.text:
-        print_help()
+    if args.list:
+        list_fonts()
+
+    if args.text is None:
+        print("No text passed in as an argument. Please use --help to learn more.")
         sys.exit()
 
-    text = ' '.join(args.text)
-    font = args.font
+    text = args.text
+    if args.uppercase:
+        text = text.upper()
+    elif args.lowercase:
+        text = text.lower()
 
-    all_fonts = pyfiglet.FigletFont.getFonts()
+    if args.random:
+        font = choice(pyfiglet.FigletFont.getFonts())
+    else:
+        font = args.font if args.font else 'standard'
 
-    generate_art(all_fonts=all_fonts, font=font, text=text)
+    generate_art(font, text)
 
 if __name__ == "__main__":
     main()
