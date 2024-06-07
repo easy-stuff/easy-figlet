@@ -1,69 +1,67 @@
-import sys, platform, os
+import sys
+import os
 
 try:
     import pyfiglet
-except:
-    if platform.system().lower().startswith('win'):
-        os.system("pip install pyfiglet")
-    else:
-        os.system("pip3 install pyfiglet")
-
+except ImportError:
+    os.system(f"{'pip' if os.name == 'nt' else 'pip3'} install pyfiglet")
     import pyfiglet
 
 from random import choice
 
-# List of all fonts
-allfonts = pyfiglet.FigletFont.getFonts()
+def print_help():
+    print("""
+███████╗██╗ ██████╗ ██╗     ███████╗████████╗
+██╔════╝██║██╔════╝ ██║     ██╔════╝╚══██╔══╝
+█████╗  ██║██║  ███╗██║     █████╗     ██║   
+██╔══╝  ██║██║   ██║██║     ██╔══╝     ██║   
+██║     ██║╚██████╔╝███████╗███████╗   ██║   
+╚═╝     ╚═╝ ╚═════╝ ╚══════╝╚══════╝   ╚═╝   
+            by ZeaCeR#5641
+
+Usage:
+    figlet [font=random] [text]
+
+Others:
+    figlet help --> Show this
+    figlet list --> Show all fonts
+        """)
+
+all_fonts = pyfiglet.FigletFont.getFonts()
 
 # Text
 try:
-    alltext = ' '.join(sys.argv[2:])
-except:
-    alltext = "ZeaCeR"
+    text = ' '.join(sys.argv[2:])
+except IndexError:
+    print_help()
+    sys.exit()
 
 # Font
 try:
     font = sys.argv[1]
 except IndexError:
-    font = "help"
-    alltext = "ZeaCeR"
+    print_help()
+    sys.exit()
 
-def SHIT(allfonts, font, alltext):
-    # world lists
-    rnd_wl = ("random", "rand", "r", "skip", "any", "no", "dont")
-    fonts_wl = ("list", "fonts", "show", "showfonts", "listfonts")
+
+def generate_art(all_fonts, font, text):
+    # Word lists
+    random_font_triggers = ("random", "rand", "r", "skip", "any", "no", "dont")
+    font_list_triggers = ("list", "fonts", "show", "showfonts", "listfonts")
 
     # Program starts here
-    if font.lower() in rnd_wl:
-        result = pyfiglet.figlet_format(f"{alltext}", font = f"{choice(allfonts)}" )
+    if font.lower() in random_font_triggers:
+        result = pyfiglet.figlet_format(text, font=choice(all_fonts))
         print(result)
-
-    elif font in allfonts: 
-        result = pyfiglet.figlet_format(f"{alltext}", font = f"{font}" )
+    elif font in all_fonts:
+        result = pyfiglet.figlet_format(text, font=font)
         print(result)
-
-    elif font.lower() in fonts_wl:
-        for countx, i in enumerate(allfonts):
-            print(f"{countx} | {i}")
+    elif font.lower() in font_list_triggers:
+        for idx, fnt in enumerate(all_fonts):
+            print(f"{idx} | {fnt}")
             print("--------------")
-
     else:
-        print("""
-    ███████╗██╗ ██████╗ ██╗     ███████╗████████╗
-    ██╔════╝██║██╔════╝ ██║     ██╔════╝╚══██╔══╝
-    █████╗  ██║██║  ███╗██║     █████╗     ██║   
-    ██╔══╝  ██║██║   ██║██║     ██╔══╝     ██║   
-    ██║     ██║╚██████╔╝███████╗███████╗   ██║   
-    ╚═╝     ╚═╝ ╚═════╝ ╚══════╝╚══════╝   ╚═╝   
-                by ZeaCeR#5641
-
-    Usage:
-        figlet [font=random] [text]
-
-    Others:
-        figlet help --> Show this
-        figlet list --> Show all fonts
-        """)
+        print_help()
 
 if __name__ == "__main__":
-    SHIT(allfonts=allfonts, font=font, alltext=alltext)
+    generate_art(all_fonts=all_fonts, font=font, text=text)
