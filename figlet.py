@@ -1,12 +1,7 @@
 import sys
 import os
-
-try:
-    import pyfiglet
-except ImportError:
-    os.system(f"{'pip' if os.name == 'nt' else 'pip3'} install pyfiglet")
-    import pyfiglet
-
+import argparse
+import pyfiglet
 from random import choice
 
 def print_help():
@@ -27,23 +22,6 @@ Others:
     figlet list --> Show all fonts
         """)
 
-all_fonts = pyfiglet.FigletFont.getFonts()
-
-# Text
-try:
-    text = ' '.join(sys.argv[2:])
-except IndexError:
-    print_help()
-    sys.exit()
-
-# Font
-try:
-    font = sys.argv[1]
-except IndexError:
-    print_help()
-    sys.exit()
-
-
 def generate_art(all_fonts, font, text):
     # Word lists
     random_font_triggers = ("random", "rand", "r", "skip", "any", "no", "dont")
@@ -63,5 +41,23 @@ def generate_art(all_fonts, font, text):
     else:
         print_help()
 
-if __name__ == "__main__":
+def main():
+    parser = argparse.ArgumentParser(description='Generate ASCII art with pyfiglet.')
+    parser.add_argument('font', type=str, help='Font to use for the ASCII art')
+    parser.add_argument('text', nargs='*', help='Text to convert to ASCII art')
+
+    args = parser.parse_args()
+
+    if not args.text:
+        print_help()
+        sys.exit()
+
+    text = ' '.join(args.text)
+    font = args.font
+
+    all_fonts = pyfiglet.FigletFont.getFonts()
+
     generate_art(all_fonts=all_fonts, font=font, text=text)
+
+if __name__ == "__main__":
+    main()
