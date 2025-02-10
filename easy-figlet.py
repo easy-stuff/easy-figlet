@@ -1,66 +1,59 @@
+import click
 import re
-import sys
-import argparse
-from random import choice
 import pyfiglet
+from random import choice
+
 
 def generate_art(font, text):
     return pyfiglet.figlet_format(text, font=font)
 
-def list_fonts():
+
+def display_fonts():
     fonts = pyfiglet.FigletFont.getFonts()
     for idx, font in enumerate(fonts):
-        print(f"{idx} | {font}")
-        print("--------------")
+        click.echo(f"{idx} | {font}\n--------------")
+
 
 def sanitize_filename(text):
-    return re.sub(r'[^\w\-_. ]', '_', text) + '.txt'
+    return re.sub(r"[^\w\-_. ]", "_", text) + ".txt"
+
 
 def save_to_file(content, filename):
-    with open(filename, 'w') as f:
+    with open(filename, "w") as f:
         f.write(content)
 
-def main():
-    parser = argparse.ArgumentParser(description='Generate ASCII art with pyfiglet.')
-    parser.add_argument('text', nargs='?', help='Text to convert to ASCII art')
-    parser.add_argument('--font', type=str, help='Font to use for the ASCII art')
-    parser.add_argument('--list', action='store_true', help='List all available fonts')
-    parser.add_argument('-r', '--random', action='store_true', help='Print text with a random font')
-    parser.add_argument('-u', '--uppercase', action='store_true', help='Convert text to uppercase')
-    parser.add_argument('-l', '--lowercase', action='store_true', help='Convert text to lowercase')
-    parser.add_argument('-s', '--save', nargs='?', const=True, help='Save the result to a file')
 
-    args = parser.parse_args()
+@click.command()
+@click.argument("text", required=False)
+@click.option("--font", type=str, help="Font to use for the ASCII art.")
+@click.option("--list", "--list-fonts", "list_fonts_flag", is_flag=True, help="List all available fonts.")
+@click.option("-r", "--random", is_flag=True, help="Print text with a random font.")
+@click.option("-u", "--uppercase", is_flag=True, help="Convert text to uppercase.")
+@click.option("-l", "--lowercase", is_flag=True, help="Convert text to lowercase.")
+@click.option("-s","--save",type=str,default=None,help="Save the result to a file. Provide a filename or it will use the text as the filename.",)
+def main(text: str, font: str, list_fonts_flag, random, uppercase, lowercase, save: str):
+    if list_fonts_flag: 
+        display_fonts()
+        return
 
-    if args.list:
-        list_fonts()
-        sys.exit()
+    if not text:
+        click.echo("No text provided. Use --help for more details.")
+        return
 
-    if args.text is None:
-        print("No text passed in as an argument. Please use --help to learn more.")
-        sys.exit()
-
-    text = args.text
-    if args.uppercase:
+    if uppercase:
         text = text.upper()
-    elif args.lowercase:
+    elif lowercase:
         text = text.lower()
 
-    if args.random:
-        font = choice(pyfiglet.FigletFont.getFonts())
-    else:
-        font = args.font if args.font else 'standard'
-
+    font = choice(pyfiglet.FigletFont.getFonts()) if random else (font or "standard")
     result = generate_art(font, text)
-    print(result)
+    click.echo(result)
 
-    if args.save is not None:
-        if args.save is True:
-            filename = sanitize_filename(text)
-        else:
-            filename = args.save
+    if save is not None:
+        filename = save if save else sanitize_filename(text)
         save_to_file(result, filename)
-        print(f"Output saved to {filename}")
+        click.echo(f"Output saved to {filename}")
+
 
 if __name__ == "__main__":
     main()
