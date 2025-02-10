@@ -1,4 +1,4 @@
-# ASCII Art Generator
+# Easy Figlet
 
 This Python script allows you to generate ASCII art from text, customize the font, and save the result to a file. You can list available fonts, convert text to uppercase or lowercase, or use a random font.
 
