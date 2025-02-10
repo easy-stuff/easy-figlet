@@ -1,60 +1,92 @@
-# easy-figlet
+# ASCII Art Generator
 
-Deal with figlet easily. Basically a wrapper.
+This Python script allows you to generate ASCII art from text, customize the font, and save the result to a file. You can list available fonts, convert text to uppercase or lowercase, or use a random font.
 
-# Setup
+## Requirements
 
-This guide is written for Windows users.
+- Run the command below to install the required python libraries:
 
-1. [Click here](https://github.com/hirusha-adi/easy-figlet/archive/refs/heads/main.zip) to download the source code in the master branch of this github repository.
-
-2. Extract it and cd into it
-
-3. Install dependencies
-
-```bash
+```
 python -m pip install -r requirements.txt
 ```
 
-4. Run the script
+## Usage
+
+### Basic Usage
+To generate ASCII art from a provided text:
 
 ```bash
-python easy-figlet.py
+python ascii_art_generator.py "Hello World"
 ```
 
-# Usage
+### Options
 
-## Command Usage
+- `--font` (optional): Specify the font to use for generating the ASCII art.
+  
+  Example:
+  ```bash
+  python ascii_art_generator.py "Hello World" --font "slant"
+  ```
 
-```
->python easy-figlet.py --help
-usage: easy-figlet.py [-h] [--font FONT] [--list] [-r] [-u] [-l] [-s [SAVE]] [text]
+- `--list` or `--list-fonts`: List all available fonts.
 
-Generate ASCII art with pyfiglet.
+  Example:
+  ```bash
+  python ascii_art_generator.py --list
+  ```
 
-positional arguments:
-  text                  Text to convert to ASCII art
+- `-r` or `--random`: Generate ASCII art with a random font.
 
-options:
-  -h, --help            show this help message and exit
-  --font FONT           Font to use for the ASCII art
-  --list                List all available fonts
-  -r, --random          Print text with a random font
-  -u, --uppercase       Convert text to uppercase
-  -l, --lowercase       Convert text to lowercase
-  -s [SAVE], --save [SAVE]
-                        Save the result to a file
-```
+  Example:
+  ```bash
+  python ascii_art_generator.py "Hello World" -r
+  ```
 
-## Examples
+- `-u` or `--uppercase`: Convert the input text to uppercase before generating the ASCII art.
 
-```bash
-python easy-figlet.py --help
-python easy-figlet.py "hirusha"
-python easy-figlet.py "hirusha" --font standard
-python easy-figlet.py "hirusha" --random
-python easy-figlet.py "hirusha" -u
-python easy-figlet.py "hirusha" -l
-python easy-figlet.py "hirusha" -s
-python easy-figlet.py "hirusha" -s "file.txt"
-```
+  Example:
+  ```bash
+  python ascii_art_generator.py "Hello World" -u
+  ```
+
+- `-l` or `--lowercase`: Convert the input text to lowercase before generating the ASCII art.
+
+  Example:
+  ```bash
+  python ascii_art_generator.py "Hello World" -l
+  ```
+
+- `-s` or `--save`: Save the generated ASCII art to a file. If no filename is provided, it will save the result with the text as the filename (sanitized).
+
+  Example:
+  ```bash
+  python ascii_art_generator.py "Hello World" -s output.txt
+  ```
+
+  If no filename is provided, the file will be saved as `Hello_World.txt`.
+
+### Example Commands
+
+- Generate ASCII art with the default font:
+  ```bash
+  python ascii_art_generator.py "Hello World"
+  ```
+
+- Generate ASCII art using the "slant" font:
+  ```bash
+  python ascii_art_generator.py "Hello World" --font "slant"
+  ```
+
+- Generate ASCII art using a random font:
+  ```bash
+  python ascii_art_generator.py "Hello World" -r
+  ```
+
+- Save the result to a file named `output.txt`:
+  ```bash
+  python ascii_art_generator.py "Hello World" -s output.txt
+  ```
+
+## License
+
+This project is open-source and available under the MIT License. See the [LICENSE](LICENSE) file for more details.
